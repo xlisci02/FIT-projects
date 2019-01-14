@@ -1,4 +1,4 @@
-# Elektronika pro informační technologie
+# Elektronika pre informačné technológie
 
 Postupné zjednodušovanie obvodov, Theveninova veta, metóda uzlových napätí, metóda slučkových prúdov, 
 diferenciálne rovnice popisujúce chovanie obvodu.
