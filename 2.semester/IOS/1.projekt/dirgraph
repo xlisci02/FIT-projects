@@ -1,0 +1,213 @@
+#!/bin/sh
+
+# IOS - Projekt 1
+# Subor: dirgraph
+# Autor: Matus Liscinsky
+# Login: xlisci02
+# Datum: 27.03.2017
+# Skript, ktory preskuma adresar a vytvori report o jeho obsahu
+
+POSIXLY_CORRECT=yes
+norm=false
+FILE_ERE='NUL'
+exc=false
+
+########################################### 
+#####      OSETRENIE ARGUMENTOV       #####
+###########################################
+
+if [ $# -gt 4 ];then
+	echo "Chybne argumenty">&2
+	exit 2
+fi
+while getopts :i:n o
+do	case "$o" in
+	n)	norm=true ;;
+	i) 	FILE_ERE=$OPTARG
+		exc=true;;
+	*) 	echo "Zly parameter">&2
+	   	exit 2 ;;	
+	esac
+done 
+
+OPTIND=$((OPTIND=OPTIND-1))
+shift $OPTIND
+
+########################################### 
+#####           TESTY                 #####
+###########################################
+
+# Ak nieje zadany adresar, prehladava sa aktualny adresar
+if [ "$*" != "" ];then
+	DIR=$*
+else DIR="."
+fi
+
+# Overovanie adresara
+TEST_DIR=`echo $DIR | awk -F' ' '{ print NF }'`
+if [ $TEST_DIR -gt 1 ];then
+	echo "Zle spustenie, skumany adresar vzdy na konci!">&2 
+	exit 2
+fi
+
+# Kontrola a prechod do adresara
+cd $DIR
+if [ $? -ne 0 ];then
+	echo "Nepodarilo sa otvorit adresar">&2
+	exit 2
+fi
+
+# Uprava retazca FILE_ERE pre spracovanie neskor
+if [ $exc ]; then
+	FILE_ERE=`echo $FILE_ERE | awk -F'$' -v OFS="($|/)" '$1=$1' | sed 's/\^/\//g'` 
+fi
+
+########################################### 
+#####         ZISKAVANIE DAT          #####
+###########################################
+
+# Ziskanie poctu adresarov / suborov
+ND=`find -type d | grep -vE $FILE_ERE | wc -l`
+NF=`find -type f | grep -vE $FILE_ERE | wc -l` 
+if [ $? -ne 0 ];then
+	echo"Chyba suboru">&2
+	exit 2
+fi
+
+# Data pre FSHIST
+NAME="  <100 B  : 
+  <1 KiB  : 
+  <10 KiB : 
+  <100 KiB: 
+  <1 MiB  : 
+  <10 MiB : 
+  <100 MiB: 
+  <1 GiB  : 
+  >=1 GiB : "
+
+# Pocty suborov v rozmedzi urcenych velkosti v bajtoch
+DATA="`find -type f -size -100c | grep -vE $FILE_ERE| wc -l`
+`find -type f -size +99c -size -1024c| grep -vE $FILE_ERE| wc -l`
+`find -type f -size +1023c -size -10240c | grep -vE $FILE_ERE| wc -l`
+`find -type f -size +10239c -size -102400c | grep -vE $FILE_ERE| wc -l` 
+`find -type f -size +102399c -size -1048576c| grep -vE $FILE_ERE| wc -l`
+`find -type f -size +1048575c -size -10485760c | grep -vE $FILE_ERE| wc -l` 
+`find -type f -size +10485759c -size -104857600c | grep -vE $FILE_ERE| wc -l` 
+`find -type f -size +104857599c -size -1073741824c| grep -vE $FILE_ERE| wc -l`
+`find  -type f -size +1073741823c | grep -vE $FILE_ERE| wc -l`"
+
+# Nacitavanie dat pre FTHIST
+if [ $NF -gt 0 ];then
+	ALL_FILES=`find -type f | grep -vE $FILE_ERE`  #vsetky subory okrem FILE_ERE
+	LIST=`file -b $ALL_FILES | sort | uniq -c -w 40 | sort -nr` #vysortovane zoradene data o suboroch (zhoda v prvych 40 znakoch)
+fi
+
+# COUNT-> pocet suborov jednotliveho typu
+COUNT=`echo "$LIST"| head | awk '{print $1}'`
+
+# TYPE-> typy suborov
+TYPE=`echo "$LIST"| head | awk '{$1="";print $0}'`
+
+# lines_num=> pocet riadkov = pocet zistenych typov (max 10 (head))
+lines_num=`echo "$COUNT" | wc -l`
+
+########################################### 
+#####          NORMALIZACIA           #####
+###########################################
+
+# Nastavenie pre normalizaciu
+width_FS=1		# sirka riadku pre FSHIST
+max_FS=1		# maximum pre FSHIST
+width_FT=1		# sirka riadku pre FTHIST
+max_FT=1		# maximum pre FTHIST
+cols=`tput cols`	# sirka terminalu
+
+if [ "$norm" = true ];then
+	if [ $NF -ne 0 ];then
+		#Hladanie maxima
+		for i in `seq 0 8` 
+		do	
+			tmp=`echo "$DATA" | sed -n "$((i+1))p"` 
+			if  test $tmp -gt $max_FS ;then
+				max_FS=$tmp
+			fi
+		done
+		
+		#Maximum pri FTHIST je hned na prvom riadku (vypis je zoradeny)	
+		max_FT=`echo "$COUNT" | head -n 1`
+
+		#Zistovanie pritomnosti terminalu	
+		if  test -t 1 ;then
+			width_FT=$((cols-48))
+			width_FS=$((cols-13))
+		else
+			width_FT=32
+			width_FS=67
+		fi
+		
+	fi			
+fi
+
+# Ak je povolena normalizacia ale nieje potrebna, hodnoty sa nastavia pre spravny vypis
+if  test $max_FT -le $((cols-48)) ;then
+	width_FT=1
+	max_FT=1
+fi
+
+if  test $max_FS -le $((cols-13)) ;then	
+	width_FS=1
+	max_FS=1
+fi
+
+########################################### 
+#####             VYPISY              #####
+###########################################
+
+# Vypis hlavicky
+echo "Root directory: $DIR"
+echo "Directories: $ND"
+echo "All files: $NF"
+echo "File size histogram:"
+
+# Vypis FSHIST	
+for i in `seq 0 8` 
+do 
+ 	printf "`echo "$NAME" | sed -n "$((i+1))p"`"
+	num=`echo "$DATA" | sed -n "$((i+1))p"` 
+	num=$((num*width_FS/max_FS))
+		for a in `seq 1 $num ` 		
+		do
+			printf "#" 	
+		done
+	echo 
+done
+
+# Vypis FTHIST
+echo "File type histogram:" 
+if [ $NF -gt 0 ];then
+	for i in `seq 0 $((lines_num-1))`
+	do
+		printf " "
+		act_line=`echo "$TYPE" | sed -n "$((i+1))p"`
+		char_count=$((${#act_line}-1)) 
+		if [ $char_count -le 40 ];then
+			printf "$act_line"
+			for a in `seq 1 $((43-char_count))` # Doplnanie medzier
+			do 
+				printf " "
+			done
+		else
+			printf "%s%s" "`echo "$act_line" | cut -c 1-41`" "..." #41-> lebo prvy znak uz je medzera
+		fi
+		printf ": "
+	
+		num=`echo "$COUNT" | sed -n "$((i+1))p"`
+		num=$((num*width_FT/max_FT))
+		for a in `seq 1 $num` 		
+		do	
+			 printf "#"
+		done
+		printf "\n"
+	done
+fi
+exit 0
