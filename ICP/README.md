@@ -1,5 +1,5 @@
 # [Seminár C++](https://www.fit.vutbr.cz/study/courses/index.php?id=12139) 
-  
+  - for *ENGLISH* version click [here](https://github.com/xlisci02/FIT-projects/tree/master/ICP#icp-project-c++).
 ### Projekt
   - Aplikácia pre návrh a editáciu **blokových schém** pre počítanie s **komplexnými čislami**
   - GUI aplikácia s využitím frameworku Qt
@@ -24,3 +24,23 @@
     - systém požiada o vyplnenie údajov vstupných portov, ktoré nie sú napojené a potom postupne vykonáva výpočty jednotlivých blokov podľa definovaných vzorcov v každom bloku
     - pri výpočte sa vždy zvýrazní blok, ktorý je práve prepočítavaný
     - výpočty sa dajú prechádzať (jeden krok = prepočet jedného bloku)
+    
+    ----
+# ICP Project (C++)
+
+## Graphical block editor for basic complex number operations.
+
+### Authors
+  - [Matúš Liščinský](https://github.com/xlisci02)
+  - [Vladimír Marcin](https://github.com/FableVegetable)
+
+Block Editor for computing basic complex number operations with user 
+friendly and simple GUI. 
+
+### Controls
+Choose the block on the left side with operation you want, click on the scene 
+and block will appear. Add to the scene how many blocks you wish and connect them with lines. 
+To connect two blocks you have to switch mode by clicking on button with line in toolbar. 
+Toolbar also includes buttons for moving with blocks, removing them, removing connections, 
+running the scheme and stepping the calculation. Before the calculation itself, 
+you will be asked for required, undefined values.  
