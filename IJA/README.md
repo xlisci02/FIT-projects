@@ -1,5 +1,5 @@
 # [Seminár Java](https://www.fit.vutbr.cz/study/courses/index.php?id=12159) 
-  - for *ENGLISH* version click [here](https://github.com/xlisci02/FIT-projects/tree/master/IJA#ija-project-java).
+  - for *ENGLISH* version click [here](#ija-project-java).
 ### Projekt
   - Aplikácia pre návrh a editáciu **blokových schém** pre počítanie s **komplexnými čislami**
   - GUI aplikácia s využitím platformy JavaFx
