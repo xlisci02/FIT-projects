@@ -1,5 +1,5 @@
 # [Seminár C++](https://www.fit.vutbr.cz/study/courses/index.php?id=12139) 
-  - for *ENGLISH* version click [here](https://github.com/xlisci02/FIT-projects/tree/master/ICP#icp-project-c).
+  - for *ENGLISH* version click [here](#icp-project-c).
 ### Projekt
   - Aplikácia pre návrh a editáciu **blokových schém** pre počítanie s **komplexnými čislami**
   - GUI aplikácia s využitím frameworku Qt
