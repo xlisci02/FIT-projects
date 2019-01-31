@@ -2,7 +2,7 @@
   - for *ENGLISH* version click [here](https://github.com/xlisci02/FIT-projects/tree/master/IJA#ija-project-java).
 ### Projekt
   - Aplikácia pre návrh a editáciu **blokových schém** pre počítanie s **komplexnými čislami**
-  - GUI aplikácia s využitím frameworku Qt
+  - GUI aplikácia s využitím platformy JavaFx
   - *Základné vlastnosti*
     - aplikácia umožňuje vytvárať, editovať, ukladať a načítať blokové schémy
     - každá schéma má svoj jedinečný názov
