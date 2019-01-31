@@ -1,4 +1,4 @@
-# Algoritmy
+# [Algoritmy](https://www.fit.vutbr.cz/study/courses/index.php?id=12129) 
 
 ### 1.projekt - 10/10
   - zásobník znakov v poli
@@ -9,5 +9,3 @@
   - binárny strom a operácie nad ním implementované rekurzívn 
   - binárny strom a operácie nad ním implementované nerekurzívne
   - tabuľka s rozptýlenými položkami
-
-### Karta predmetu: https://www.fit.vutbr.cz/study/courses/index.php?id=12129
