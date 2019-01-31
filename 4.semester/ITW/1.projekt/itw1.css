@@ -1,0 +1,368 @@
+/*
+#ITW Projekt1{
+	Autor: Matus Liscinsky;
+	Login: xlisci02;
+	Mail: xlisci02@stud.fit.vutbr.cz;
+	Datum: 1.4.2018;
+}
+*/
+
+*{
+	font-family: Crimson Text;
+}
+
+header{
+	border-top: 4px solid #3E2723;
+	min-width: 960px;
+}
+
+/* Nadpisy */
+h1, h2{
+	font-family: Lobster ;
+	color: #5D4037;
+	letter-spacing: 1px;
+}
+
+h1{
+	font-size: 35pt;
+}
+
+h2{
+	font-size: 19pt;
+}
+
+/* Telo dokumentu */
+body{
+	margin: 0;
+	font-size: 12pt;
+	background: url('img/pattern.png');
+	color: black;
+}
+
+a{
+  	color:white;
+  	text-decoration: none;
+}
+
+a:hover{
+  	text-decoration: underline;
+}
+
+
+.sidebar-social .fab{
+	font-size: 26pt;
+	margin-right: 12px;
+	color: #FF8F00; /* oranzova */
+}
+.sidebar-social .fab:hover{
+	color: #5D4037 ; /* po prejdeni mysou zmena z oranzovej na hnedu */ 
+}
+
+#navbar {
+	position: relative;
+    background: linear-gradient(to right, #ff6f00, #ffa000);
+    border-bottom: 1px solid white;
+}
+  
+#navbar ul {
+ 	list-style-type: none;
+    padding: 0;
+	margin: 15px 0;
+}
+  
+#navbar .menu {
+    position: relative;
+    margin: 0 auto;
+    width: 960px;
+    font-size: 13pt;
+    letter-spacing: 1pt;
+    font-weight: bold;
+}
+  
+.logo {
+    background: url(img/logo.png);
+    display: flex;
+    position: absolute; 
+    top: 0; 
+    left: 381px;
+    width: 198px;
+    height: 122px;
+    margin: 0;
+    z-index: 1;
+  }
+  
+.logo a{
+	width: 100%;
+}
+
+.logo span {
+    display: none;
+}
+  
+.menu-left {
+    display: inline-block;
+}
+
+.menu-right {
+    float: right;
+}  
+
+.menu-left li {
+    display: inline;
+    padding: 8px 46px 8px 0;
+}
+
+.menu-right li {
+    display: inline;
+    padding: 8px 0px 8px 46px;
+}
+
+#page-title {
+	background: url('img/bg.png');
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 420px;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+#page-title h1{
+	margin:0;
+	position: absolute;
+	bottom: 50%;
+	left:43%;
+	text-align: center
+}
+
+p.breadcrumb{
+	position: absolute;
+	bottom: 35%;
+	left:43%;
+	font-size: 12pt;
+}
+
+#main{
+	width: 960px;
+	margin: 0 auto;
+}
+
+.main-text{
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.main-text h1{
+	display: block;
+}
+.main-text p{
+	padding: 0 30px;
+}
+
+
+.box{
+	background-color: white;
+	margin-top: 20px;
+	padding: 0 10px 15px 15px;
+	border: 2px solid #f0f0f0;
+	margin-bottom: 20px;
+}
+
+.form{
+	float: left;
+	width: 70%;
+}
+
+.info{
+	float: left;
+	margin-left: 60px;
+	width: 40%;
+}
+
+.info p {
+	margin: 0;
+}
+
+.info a{
+	color: #FF8F00;
+}
+
+
+.contacts{
+	display: flex;
+	margin: 0 auto;
+}
+
+.left, .right{
+	float: left;
+	width: 50%;
+	margin-bottom:20px;
+}
+
+input{
+	border: 1px solid #dcdcdc;
+    color: #777777;
+    background: #fbfbfb;
+    padding: 6px 5px;
+    font-size: 12pt;
+}
+
+.form textarea{
+	width:90%;
+    color: #777777;
+    font-size: 12pt;
+   	border: 1px solid #dcdcdc;
+    padding: 10px 10px;
+}
+
+input[type=text], input[type=email] {
+	width:82%;
+}
+
+.form input[type=radio], input[type=checkbox] {
+    width: 1em;
+    height: 1em;
+}
+
+.form textarea::placeholder, .form input::placeholder{
+	color:#aaaaaa;
+}
+
+.contacts .submit{
+	background-color: #FF8F00;
+	border: none;
+	color: white;
+	width: 15%;
+	font-size: 12pt;
+	padding: 10px 0;
+	margin-top: 15px;
+}
+
+.newsletter .submit{
+	background-color: #FF8F00 ;
+	border: none;
+	color:white;
+	font-size: 12pt;
+	padding: 10px 0;
+	width: 21%; /* upravit*/
+}
+
+.submit:hover{
+	cursor: pointer;
+	background-color: #5D4037;
+}
+
+.newsletter input[type=text]{
+	width: 77%;
+	padding: 9px 6px;
+	margin-right: -4px;
+    color: #777777;
+}
+
+.newsletter input::placeholder{
+	color:#aaaaaa;
+}
+
+.newsletter{
+	margin-top: 0;
+}
+
+.newsletter p{
+	margin: 0;
+}
+
+#footer { 
+    min-width: 960px;
+    background-color: #252525;
+  }
+  
+.main {
+    width: 960px;
+    min-width: 960px;
+    margin: 0 auto;
+    font-family: 'Crimson Text';
+    font-size: 12pt;
+    color: white;
+    display: table;
+}
+  
+.main .hours {
+    float: left;
+    width: 25%;
+}
+  
+.main .about {
+	float: left;
+	width: 24%;
+	margin-left: 13%;
+}
+  
+.main .menu {
+	float: left;
+    width: 21%;
+    margin-left: 17%;
+}
+  
+
+.main .inner {  
+    width: 100%;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+  
+.footer-title {
+	letter-spacing: 0.5ex;
+	font-weight: bold;
+    font-size: 12pt;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1pt solid white;
+}
+  
+.hours .footer-title {
+    width: 92%;
+}
+
+.footer-content td {
+    padding-bottom: 5px;
+    padding-right: 17px;
+}
+  
+.footer-content p {
+    width: 98%;
+    margin: 0;
+}
+  
+.footer-content ul {
+	padding: 0;
+}
+  
+.footer-content li {
+    list-style-position: inside;
+    margin-bottom: 10px;
+}
+  
+
+.footer-content .fab, .footer-content .fas{
+	font-size: 26pt;
+	margin-right: 12px;
+	margin-top:12px;
+	opacity: 0.5;
+}
+
+.footer-content .fab:hover,
+.footer-content .fas:hover{
+	opacity: 1;
+	cursor: pointer;
+}
+  
+#copyright {
+	background-color: #333333;
+    text-align: center;
+    color: white;
+}
+  
+#copyright p {
+    padding: 20px 0;
+    margin: 0;
+}

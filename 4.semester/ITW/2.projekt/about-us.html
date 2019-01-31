@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" 
+      type="image/png" 
+      href="images/logo.png">
+    <title>Realty promptly - Find your perfect home.</title>
+</head>
+
+
+<body>
+
+
+	<header id="uvod_prop">
+		<div id="lista">
+			<div id="logo_cast">
+				<a href="http://www.stud.fit.vutbr.cz/~xlisci02/"><img alt="" id="logo" src="images/logo.png" title="Realty promptly - Find your perfect home."></a>
+			</div>
+			<div id="menu">
+				<ul>
+					<li> <a href="index.html">Home</a> </li>
+					<li> <a href="index.html#news">News</a> </li>
+					<li> <a onclick="dropMenu('prop')">Properties</a> 
+						<div class="dropdown" id="prop">
+							<a href="family-houses.html">Family houses</a>
+							<a href="flats.html">Flats</a>
+						</div>
+					</li>
+					<li> <a onclick="dropMenu('offer')">Offer / Enquiry</a> 
+						<div class="dropdown" id="offer">
+							<a href="form-sell.html">Place your offer</a>
+							<a href="form-buy.html">Place your enquiry</a>
+						</div>
+
+					</li>
+					<li> <a onclick="dropMenu('about')">About us</a> 
+						<div class="dropdown" id="about">
+							<a href="about-us.html">Realty office</a>
+							<a href="partners.html">Partners</a>
+						</div>
+					</li>
+					<li> <a href="#contact">Contact</a> </li>
+					
+				</ul>
+			</div>
+
+			<div id="navigation">
+				<img alt="" id="nav" src="images/nav.png" onclick="showMap()">
+				<div id="map" style="display: none;">
+					<div id="not_allowed_JS" style="display: none">
+						<p>Sorry. JavaScript is Disabled. <br><br>Couldn't show the map.</p>
+					</div>
+					<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2605.6299855086822!2d16.594932815687446!3d49.22654397932527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xbfcf161b01a48b0d!2zVnlzb2vDqSB1xI1lbsOtIHRlY2huaWNrw6kgQnJubyAtIEZha3VsdGEgaW5mb3JtYcSNbsOtY2ggdGVjaG5vbG9nacOt!5e0!3m2!1scs!2scz!4v1520419475516" style="border:0; width: 100%; height: 100%;" allowfullscreen></iframe>
+					
+				</div>
+			</div>
+		</div>
+	</header>
+
+
+	<section id="telo">
+		<div class="container" style="margin: 20px 8%;">
+			<h2>About us</h2>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sit amet sagittis ex. Cras egestas pretium mi in accumsan. Aliquam nec venenatis leo, nec varius dolor. Phasellus vitae semper est. In auctor, orci sit amet sagittis placerat, neque velit commodo risus, non posuere quam velit vel tellus. Phasellus quis fringilla diam. Aliquam et nulla facilisis, mollis nisl a, convallis neque. Etiam facilisis pharetra neque, quis tincidunt lacus maximus a.
+			</p>
+			<p>
+				Aenean vitae dolor sed sem tempus eleifend. In vel suscipit urna. In ornare pretium mauris, ut laoreet est consequat non. Nulla at nisl nunc. Aliquam nec varius augue. Duis efficitur enim ultricies, pellentesque sem non, aliquet erat. Nulla a rutrum nunc. Pellentesque pharetra vel arcu et lacinia. Cras ultrices eleifend enim, sed volutpat erat tincidunt quis. In nec consequat mi.
+			</p>
+			<h2>Our People</h2>
+			<div id="people">
+				<figure>
+					<img alt="" src="images/humans/human6.png">
+					  <figcaption>Martin Veľbacký</figcaption>
+				</figure>
+				<figure>
+					<img alt="" src="images/humans/human3.png">
+					  <figcaption>Kristína Svarinská</figcaption>
+				</figure>
+				<figure>
+					<img alt="" src="images/humans/human2.png">
+					  <figcaption>Dominika Košičová</figcaption>
+				</figure>
+				<figure>
+					<img alt="" src="images/humans/human4.png">
+					  <figcaption>Peter Nový</figcaption>
+				</figure>
+				<figure>
+					<img alt="" src="images/humans/human5.png">
+					  <figcaption>Tomáš Svetlý</figcaption>
+				</figure>
+				<figure>
+					<img alt="" src="images/humans/human7.png">
+					  <figcaption>Simona Fignárová</figcaption>
+				</figure>
+			</div>
+		</div>
+	</section>
+
+	<script>
+	function myFunction() {
+		document.getElementById("ppp").classList.toggle("show");
+	}
+	</script>
+	
+	<footer>
+		<div>
+			<div class="table_name">Opening Hours</div>
+			<table>
+				<tr>
+					<td class="day">Mon</td> <td>8:00 - 16:00</td>	
+				</tr>
+				<tr>
+					<td class="day">Tue</td> <td>8:00 - 16:00</td>	
+				</tr>
+				<tr>
+					<td class="day">Wed</td> <td>8:00 - 17:00</td>	
+				</tr>
+				<tr>
+					<td class="day">Thu</td> <td>8:00 - 16:00</td>	
+				</tr>
+				<tr>
+					<td class="day">Fri</td> <td>8:00 - 14:30</td>	
+				</tr>
+			</table>
+		</div>
+
+		<div id="contact">
+			<div class="table_name">Contact</div>
+			<div>
+				Realty promptly s.r.o.
+			</div>
+			<div>
+				Božetěchova 1/2
+			</div>
+			<div>
+				612 66 Brno
+			</div>
+			<div>
+				Tel.: 54114 1144
+			</div>
+			<div>
+				Fax: 54114 1270
+			</div>
+			<div>
+				E-mail: <a href="mailto:xlisci02@stud.fit.vutbr.cz">xlisci02@stud.fit.vutbr.cz</a>
+			</div>
+		</div>
+
+		<div>
+			<div class="table_name">Social</div>
+				<div id="social">
+					<a href="https://www.facebook.com"><img alt="" title="Facebook" src="images/facebook.png"></a>	
+					<a href="https://www.instagram.com"><img alt="" title="Instagram" src="images/instagram.png"></a>
+					<a href="https://twitter.com"><img alt="" title="Twitter" src="images/twitter.png"></a>
+				</div>
+				<div class="table_name"></div>
+				<div id="web_map_link">
+					<a href="webmap.html">Site map</a>
+				</div>
+		</div>
+	</footer>
+	<div id="copyright">
+		Realty Promptly &copy; 2018. All Rights Reserved.
+	</div>
+
+	<script>
+	function dropMenu(id) {
+		document.getElementById(id).classList.toggle("show");
+	}
+
+	function showMap(){
+
+		var map = document.getElementById("map");
+	    if (map.style.display === "none"){
+	        map.style.display = "block";
+			document.cookie="map=" + map.style.display+';expires="";path=/';
+	    }
+	    else{
+	        map.style.display = "none";
+			document.cookie="map=" + map.style.display+';expires="";path=/';
+	    }
+	}
+	
+	function checkCookie(){
+        map = document.getElementById("map");
+
+        if(document.cookie){
+	        map.style.display=document.cookie.split("=")[1];
+        }
+	}
+
+
+	document.body.onload = checkCookie();
+	
+	</script>
+	<noscript>
+		<style>
+			#map, #not_allowed_JS, #prop, #offer, #about{
+				display: block !important;
+			}
+		</style>
+	</noscript>
+</body>
+</html>
