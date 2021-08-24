@@ -1,0 +1,208 @@
+/**
+ * @file      main.cpp
+ *
+ * @author    Matus Liscinsky (xlisci02) \n
+ *            Faculty of Information Technology \n
+ *            Brno University of Technology \n
+ *            xlisci02@stud.fit.vutbr.cz
+ *
+ * @brief     PCG Assignment 2
+ *            N-Body simulation in ACC
+ *
+ * @version   2021
+ *
+ * @date      11 November  2020, 11:22 (created) \n
+ * @date      29 November  2020, 11:37 (revised) \n
+ *
+ */
+
+
+
+Krok 1: základní implementace
+===============================================================================
+Velikost dat     čas [s]
+  1 * 1024         0.779
+  2 * 1024         1.501
+  3 * 1024         2.198
+  4 * 1024         2.855
+  5 * 1024         3.581
+  6 * 1024         4.267
+  7 * 1024         4.975
+  8 * 1024         5.659
+  9 * 1024         6.389
+  10 * 1024        7.006
+  11 * 1024        7.689
+  12 * 1024        8.454
+  13 * 1024        9.174
+  14 * 1024        10.129
+  15 * 1024        11.207
+  16 * 1024        11.954
+  17 * 1024        24.436
+  18 * 1024        25.876
+  19 * 1024        27.642
+  20 * 1024        28.958
+  21 * 1024        31.004
+  22 * 1024        32.368
+  23 * 1024        34.167
+  24 * 1024        35.353
+  25 * 1024        37.301
+  26 * 1024        38.437
+  27 * 1024        39.973
+  28 * 1024        41.807
+  29 * 1024        43.198
+  30 * 1024        44.559
+
+Vyskytla se nějaká anomálie v datech
+Pokud ano, vysvětlete:
+Áno, túto anomáliu môžeme vidieť pri prechode z 16 * 1024 na 17 * 1024, rozdiel je 12.482 sekundy.
+Vysvetlenie:
+  Pomocou analýzy profilovania nástrojom `nvvp` som zistil, že jedno vlákno vykonávajúce
+  kernel `compute_gravitation_velocity` potrebuje 48 registrov, a to rovnako platí aj pre kernel
+  `compute_collision_velocity`.
+  V jednom bloku beží 128 vlákien, takže jeden blok vykonávajúci jeden z týchto
+  kernelov potrebuje 128 * 48 = 6144 registrov. Kapacita SM jednotky je 65536 registrov.
+  To znamená, že v jednej SM jednotke môže paralélne počítať tento kernel maximálne 10 blokov (floor (65536 / 6144)).
+  Z toho vyplýva, že na jednom SM procesore môže bežať maximálne 10 * 128 = 1280 takýchto vlákien.
+  Grafická karta na anselme (Tesla K20m) obsahuje celkovo 13 SM procesorov, čo znamená
+  paralélny beh maximálne 13 * 1280 = 16640 vlákien počítajúcich kernel na celej karte.
+  Pri počte prvkov N = 16 * 1024 = 16384, platí že všetky bloky počítajúce tento kernel sa vykonajú na grafickej karte
+  paralélne (rozmiestnenie do všetkých SM procesorov, pretože 16384 < 16640).
+  Od N = 17 * 1024 = 17408 to už platiť nebude a bloky sa budú musieť na SM procesoroch serializovať,
+  (pri oboch kerneloch) čo pripisujeme danému skoku v časových údajoch.
+
+  TLDR:
+  - vlákno vykonávajúce kernel `compute_gravitation_velocity` resp. `compute_collision_velocity` potrebuje 48 registrov
+  - 1 blok (128 vlákien) => 6144 registrov
+  - SM procesor = 65536 registrov
+  - z toho vyplýva 10 blokov na jeden SM procesor (floor (65536 / 6144))
+  - 10 blokov = 1280 vlákien na jednom SM procesore
+  - Tesla K20m má 13 SM procesorov => 13 * 1280 = 16640 vlákien paralelne počíta kernel (maximálne)
+  - Pri N = 16 * 1024 = 16384 sa kernel počíta paralelne na všetkých SM procesoroch
+  - Od N = 17 * 1024 = 17408 sa musia bloky na SM procesoroch serializovať
+
+Krok 2: optimalizace kódu
+===============================================================================
+Došlo ke zrychlení?
+Áno.
+Priemerné zrýchlenie vychádzajúce z meraní oboch krokov pri N = {1..30} * 1024 bolo 26.61 %.
+
+Parametre merania:
+N: {1..30} * 1024
+DT: 0.01f
+STEPS: 500
+
+Popište dva hlavní důvody:
+1. Odpadá nutnosť používať pomocné polia pre ukladanie rýchlostí, ktoré boli uložené v glob. pamäti.
+Navyše, pri step1 sa v kerneloch pristupovalo k rovnakým miestam v glob. pamati,
+pri step2 sa prístup k rovnakým miestam zjednotil.
+Celkovo sa tak znížil počet prístupov do glob. pamäti čo viedlo k lepšiemu času.
+
+2. V kerneloch
+   `compute_gravitation_velocity`,
+   `compute_collision_velocity`
+   sa v step1 počítali rovnaké pomocné výpočty, spojením sa znížil počet FP operácií.
+   + menej réžie spojenej s kernelmi. (1 kernel vs 3 kernely)
+
+Porovnejte metriky s předchozím krokem:
+Parametre profilovania:
+N: 30720
+DT: 0.01f
+STEPS: 1
+
+            Global Load Transactions        Floating Point Operations(Single Precision)
+step1             206 468 160                         39 636 276 480
+step2             117 971 520                         25 481 000 000
+
+Global Load Transactions:
+Pri step1 vlákna vykonávajúce kernel `calculate_gravitation_velocity` čítali rovnaké hodnoty aj v kerneli
+`calculate_collision_velocity`, pri step1 sa načítajú z glob. pamäte iba raz.
+
+Floating Point Operations(Single Precision)
+Analogicky, vlákna v kerneli `calculate_gravitation_velocity` vykonávajú rovnaké FP výpočty znova aj
+v kerneli `calculate_collision_velocity`, spojením do jedného kernelu sa tieto hodnoty vypočítajú iba raz.
+
+Krok 3: Težiště
+===============================================================================
+Kolik kernelů je nutné použít k výpočtu?
+Na výpočet ťažiska som implementoval jeden kernel,
+avšak ten obsahoval redukciu, takže vo výsledku sa okrem neho spúšťal ešte jeden, redukčný kernel.
+
+Kolik další paměti jste museli naalokovat?
+Keďže som použil výpočet s redukciou na 4 premenné (x,y,z,w),
+žiadnu ďalšiu pamäť som nepotreboval explicitne alokovať.
+
+Jaké je zrychelní vůči sekveční verzi?
+(provedu to smyčkou #pragma acc parallel loop seq)
+Dáta sú z výsledkov profilovania v grafickom prostredi `nvvp`.
+Sekvenčné riešenie (kernel CenterOfMassGPU)    40 279.63 us (40.27963 ms)
+Paralélne riešenie (kernel CenterOfMassGPU)        22.91 us (16.67 + 6.24) us
+Zrýchlenie:                                      1758.16 x
+
+Zdůvodněte:
+Pri zdôvodnení si pomôžeme výsledkami profilovania.
+Parametre profilovania:
+N: 30720
+DT: 0.01f
+STEPS: 1
+
+Pri sekvenčnej verzii počíta iba jedno vlákno a tak vyťaženie procesora je nízke oproti paralélnej verzii:
+
+                       Multiprocessor Activity
+seq kernel                    7.69%
+parallel kernel              75.20%
+parallel kernel_red          14.86%
+
+Pri sekvenčnej verzii sa zvýšil počet načítaní z globálnej pamäte, všetky dáta načítava
+iba jedno vlákno, pri paralélnej verzii využívame priestorovú lokalitu (cache).
+
+                      Global Load Transactions      Global Memory Load Efficiency
+seq kernel                   245760                           12.50%
+parallel kernel                3840                          100.00%
+parallel kernel_red               4                           12.50%
+
+Sekvenčná verzia nepoužíva zdieľanú pamäť:
+                      Shared Load Transactions        Shared Memory Efficiency
+seq kernel                        0                            0.00%
+parallel kernel               19200                           23.39%
+parallel kernel_red             176                           21.56%
+
+
+
+Krok 4: analýza výkonu
+================================================================================
+Výsledky priepustnosi pamäte, výkonu a zrýchlenia patria k OpenACC riešeniu, nie CUDA. Z CUDA riešenia tabuľka obsahuje
+iba hodnoty dosiahnutého času výpočtu.
+
+     N    čas CPU [s]  čas CPU*[s]  čas GPU [s]  (CUDA) čas GPU [s]  propustnost paměti [MB/s]  výkon [MFLOPS]  zrychlení [-]    zrychlení* [-]
+   128          0.499      0.182         0.116            0.084748           1461.3005            2058.4655      4.301724138     1.568965517
+   256          0.973      0.291         0.172            0.122131           2749.8030            5538.2093      5.656976744     1.691860465
+   512          2.373      0.901         0.287            0.215380           5086.2198           13259.7909      8.268292683     3.139372822
+  1024          4.274      1.216         0.520            0.405154           9118.4814           29256.0923      8.219230769     2.338461538
+  2048         13.862      2.315         0.984            0.784118          16984.4564           61824.0975      14.08739837     2.352642276
+  4096         56.193      7.038         1.818            1.547540          33716.8396          133830.8646      30.90924092     3.871287129
+  8192        220.158     27.580         3.543            3.096232          66040.0440          274667.8408      62.13886537     7.784363534
+ 16384        878.421    102.518        13.547            6.896794          83698.1682          287329.5472      64.84247435     7.567579538
+ 32768      ~3513.684    401.489        40.329           30.658393         108541.9300          386061.0185      87.12549282     9.955342310
+ 65536     ~14054.736  ~1605.956       158.812          122.377772         129019.9568          392132.7940      88.49920661    10.112308890
+131072     ~56218.944  ~6423.824       620.333          428.858391         146079.6166          401576.1172      90.62704064    10.355444580
+
+~ odhadované hodnoty CPU riešenia
+* táto CPU verzia sa líši v tom, že v kerneli `calculate_gravitation_velocity` sa premenné do ktorých sa výsledok redukuje
+  (tmp_vel_x, tmp_vel_y, tmp_vel_z) definujú vždy pred vstupom do vnútorného cyklu a nie iba raz pred vonkajším cyklom;
+  prakticky to znamená, že sa riadok kódu nbody.cpp:36 presunie na pozíciu nbody.cpp:39.
+  Na GPU ale táto zmena vplývala negatívne na výkon.
+
+Priepustnosť pamäte bola počítaná ako súčet týchto dvoch metrík
+Requested Global Load Throughput,
+Requested Global Store Throughput
+zo všetkých kernelov.
+
+Výkon pamäte bol počítaný ako súčet metrík
+Floating Point Operations(Single Precision)
+Floating Point Operations(Single Precision Special)
+zo všetkých kernelov, tento súčet vynásobený počtom krokov (500), podelený časom výpočtu a prevedený z FLOPS na MFLOPS.
+
+Od jakého počtu částic se vyplatí počítat na grafické kartě?
+Podľa tabuľky už od 128 častíc, pretože výpočet trvá menej na grafickej karte (došlo k zrýchleniu).
+
+===============================================================================

@@ -1,0 +1,62 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html"/>
+    <meta charset="utf-8">
+    <title>Projekt IIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<h1>Veterinárna klinika</h1> <!-- Nahradte názvem svého zadání -->
+
+<dl>
+	<dt>Autori</dt>
+	<dd>Liščinský Matúš <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xlisci02@stud.fit.vutbr.cz">xlisci02@stud.fit.vutbr.cz</a> -
+		implementácia designu, správa užívateľov a užívateľské rozhranie
+	</dd>
+	<dd>Marcin Vladimír <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
+	    <a href="mailto:xmarci10@stud.fit.vutbr.cz">xmarci10@stud.fit.vutbr.cz</a> - 
+		návrh vzhľadu, implementácia komunikácie s databázovým serverom a užívateľské rozhranie
+	</dd>
+	<dt>URL aplikácie</dt>
+	<dd><a href="http://www.stud.fit.vutbr.cz/~xlisci02/IIS">http://www.stud.fit.vutbr.cz/~xlisci02/IIS</a></dd>
+</dl>
+
+<h2>Užívatelia systému pre testovanie</h2>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>vet</td><td>vet</td><td>Veterinár</td></tr>
+<tr><td>nurse</td><td>nurse</td><td>Sestra</td></tr>
+</table>
+
+<h2>Implementácia</h2>
+<p>Implementácia zahŕňa prvky použité z knižnice Bootstrap 3.3.7. Riešenie obsahuje niekoľko PHP skriptov, rozumne pomenovaných podľa ich funkcií. Napríklad:</p>
+<ul>
+	<li>index.php - úvodný skript pre prihlásenie do systému</li>
+	<li>logout.php - skript pre odlhásenie užívateľa zo systému</li>
+	<li>add_animal.php - pridanie zvieraťa do systému</li>
+	<li>owner_profile.php - profil majiteľa zvieraťa</li>
+	<li>...</li>
+	
+</ul>
+<h2>Instalace</h2>
+<ul>
+<li>Nakopírujte všetky súbory na server</li>
+<li>Inicialuzujte databázu a naplňte vzorovými dátami (skript db.sql)</li>
+<li>Potreba MySQL verzie >5.5.62 a PHP minimálne 5.3.29 </li>
+</ul>
+
+</body>
+</html>

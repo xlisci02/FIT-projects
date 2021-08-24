@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:textColor="@color/colorPrimary" android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zadajte názov lieku"/>
+    <EditText
+        android:id="@+id/addMedName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Názov lieku   "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:textColor="@color/colorPrimary" android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zadajte čas kedy začnete s užívaním"/>
+
+        <TimePicker
+            android:id="@+id/addMedTimepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:layout_below="@+id/addMedName"
+            android:timePickerMode="spinner" />
+
+    <TextView
+        android:layout_width="wrap_content" android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="Koľkokrát denne"
+        android:textColor="@color/colorPrimary" />
+
+    <Spinner
+        android:id="@+id/addMedSpinner"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textColor="@color/colorPrimary" android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zadajte počiatočný dátum užívania"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner" />
+
+    <TextView
+        android:textColor="@color/colorPrimary"      android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="-10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zadajte predpokladný dátum konca užívania"/>
+
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="160dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:padding="-10dp" />
+
+
+        <TextView
+            android:textColor="@color/colorPrimary" android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Označte dni, ktoré budete liek užívať"/>
+
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <CheckBox
+                    android:id="@+id/day1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Po" />
+
+                <CheckBox
+                    android:id="@+id/day2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ut" />
+
+                <CheckBox
+                    android:id="@+id/day3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="St" />
+
+                <CheckBox
+                    android:id="@+id/day4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Št" />
+
+                <CheckBox
+                    android:id="@+id/day5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pi" />
+
+            </TableRow>
+
+        <TableRow>
+
+                <CheckBox
+                    android:id="@+id/day6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="So" />
+
+                <CheckBox
+                    android:id="@+id/day7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ne" />
+
+            </TableRow>
+
+        </TableLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</LinearLayout>
+</ScrollView>

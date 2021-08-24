@@ -1,0 +1,59 @@
+.TH DNS-EXPORT 1 
+.SH NAME 
+dns-export \- export DNS information using Syslog protocol
+.SH SYNOPSIS 
+.B dns-export
+[\fB\-r\fR \fIfile\fR] 
+[\fB\-s\fR \fIsyslog-server\fR]
+.PP
+.B dns-export
+[\fB\-i\fR \fIinterface\fR]
+[\fB\-s\fR \fIsyslog-server\fR]
+[\fB\-t\fR \fIseconds\fR]
+.SH DESCRIPTION
+.B dns-export
+collects DNS information from pcap file or given interface and send it to specified syslog server
+.PP
+By DNS information are meant data of supported DNS response messages: \fB A, AAAA, CNAME, MX, NS, SOA, TXT, SPF, PTR, SRV, DNSKEY, DS, NSEC, NSEC3, NSEC3PARAM and RRSIG\fR.
+All the ohters known types program can recognize but won't process. 
+.PP
+Program can handle with packet send via UDP or TCP protocol, so it provides reassembling of TCP stream segments. It also expects communication using Ethernet or Linux SLL headers and IPv4 or IPv6 headers (IPv6 extension headers are supported too).
+.PP
+When using online capturing, you have to have \fIroot\fR privileges. 
+.SH OPTIONS
+.TP
+.BR \-r \ \fIfile\fR
+Collects DNS information from pcap \fIfile\fR. (Can't be used with \fB-i\fR or \fB-t\fR.)
+.PP
+.RS
+If no \fB\-s\fR option is given, stats will be printed to STDOUT.
+.RE
+.TP
+.BR \-s \ \fIsyslog-server\fR
+Sends collected data to \fIsyslog-server\fR. It must be represented as hostname/ipv4/ipv6 address.
+.TP
+.BR \-t \ \fIseconds\fR
+(Used in conjunction with \fB\-s\fR and \fB-i\fR.) Set timeout to \fIseconds\fR. Timeout is the time between each sending to syslog server. Default is 60. (Can't be used with \fB-r\fR or without \fB-s\fR.)
+.TP
+.BR \-i \ \fIinterface\fR
+Program will listen on \fIinterface\fR for DNS data. Default is any, what means listening on all available interfaces.
+.PP
+.RS
+If no \fB\-s\fR option is given, stats will be printed to STDOUT after recieving singal SIGUSR1. (Can't be used with \fB-r\fR.) 
+.RE
+.TP
+.BR \-h 
+Prints help. (Must be used as single option.)
+.SH RETURN CODES
+.B dns-export
+has the following return codes:
+.PP
+0	success
+.PP
+1	initialization error
+.SH SEE ALSO
+\fBmanual.pdf, tcpdump(8), RFC 1035, RFC 3596, RFC 7208, RFC 2782, RFC 4034, RFC 5155, RFC 5424 \fR
+.SH BUGS
+Application doesn't support IP fragmentation.
+.SH AUTHORS
+Matus Liscinsky <xlisci02@stud.fit.vutbr.cz>

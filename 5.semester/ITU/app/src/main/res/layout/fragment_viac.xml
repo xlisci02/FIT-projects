@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			 xmlns:tools="http://schemas.android.com/tools"
+			 android:layout_width="match_parent"
+			 android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+			 tools:context=".Viac">
+
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical">
+        <TextView
+                android:id="@+id/docs"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@mipmap/icondoc"
+                android:drawablePadding="5dp"
+                android:clickable="true"
+                android:textSize="27px"
+                android:textColor="#000"
+                android:text="Lekári"
+                android:gravity="center_vertical" android:paddingLeft="20dip">
+        </TextView>
+        <TextView
+                android:id="@+id/game"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@mipmap/game"
+                android:drawablePadding="5dp"
+                android:clickable="true"
+                android:textSize="27px"
+                android:textColor="#000"
+                android:text="Minihra"
+                android:gravity="center_vertical" android:paddingLeft="20dip">
+        </TextView>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/mojasiva"/>
+        <TextView
+                android:id="@+id/settings"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="?attr/selectableItemBackground"
+                android:drawableLeft="@mipmap/sett"
+                android:drawablePadding="5dp"
+                android:textSize="27px"
+                android:textColor="#000"
+                android:clickable="true"
+                android:text="Nastavenia" android:gravity="center_vertical" android:paddingLeft="20dip">
+        </TextView>
+    </LinearLayout>
+
+</FrameLayout>

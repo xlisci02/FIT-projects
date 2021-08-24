@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RebricekActivity">
+
+
+    <TableRow
+        android:background="@color/colorLightPrimary">
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="#"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+        <TextView
+
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prezývka"/>
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meno"/>
+        <TextView
+            android:textStyle="bold"
+            android:textSize="16dip"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Počet bodov"/>
+
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sucho123"/>
+
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Peter Suchý"/>
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="55dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="173"/>
+
+    </TableRow>
+    <TableRow
+            android:background="@color/mojasiva">
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+        <TextView
+
+            android:drawablePadding="5dp"
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tribit12"/>
+
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jozef Tribus"/>
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="55dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="127"/>
+
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="novakrolo11"/>
+
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Roland Novák"/>
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="55dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="111"/>
+
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jelen120"/>
+
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Roman Jeleň"/>
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="55dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="98"/>
+
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:textSize="10pt"
+            android:textStyle="bold"
+            android:padding="10dp"/>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kucoluky5"/>
+
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lukáš Kucko"/>
+        <TextView
+            android:textSize="16dip"
+            android:paddingLeft="55dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="35"/>
+
+    </TableRow>
+
+</TableLayout>

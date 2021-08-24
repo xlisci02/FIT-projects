@@ -1,0 +1,145 @@
+Architektury Výpočetních Systémů (AVS 2019)
+Projekt č. 2 (PMC)
+Login: xlisci02
+
+Úloha 1: Paralelizace původního řešení
+===============================================================================
+
+1) Kterou ze smyček (viz zadání) je vhodnější paralelizovat a co způsobuje 
+   neefektivitu paralelizaci té druhé?
+
+   - Obecne sa využíva princíp paralelizmu na najviac vonkajšej smyčke, 
+   keďže rozdistribujeme medzi vlákna najviac práce. Paralelizmus má zmysel 
+   vtedy ak máme dostatok práce, inak je neefektívny, pretože jeho réžia bude 
+   v porovnaní s výsledným zrýchlením vysoká. Z tohto dôvodu je vhodnejšie 
+   paralelizovať smyčku vo fukncii `marchCubes`, pretože z nej sa volá funkcia 
+   `buildCube`, ktorá pre každý vrchol kocky volá fuknciu `evaluateFieldAt`. 
+   V tejto funkcii sa nachádza naša druhá smyčka for, a teda je vnorená do prvej 
+   smyčky, z čoho samozrejme plynie aj fakt, že obsahuje menej výpočtov.
+
+
+2) Jaké plánování (rozdělení práce mezi vlákna) jste zvolili a proč? 
+   Jaký vliv má velikost "chunk" při dynamickém plánování (8, 16, 32, 64)?
+
+   - Plánovanie `dynamic` s `chunk_size` = 8. Výsledky pri rôznych typoch 
+   schedulingu a veľkostiach chunk_size boli takmer rovnaké, napriek tomu 
+   som zvolil dynamické plánovanie, keďže množstvo práce v iterácii závisí 
+   od indexu (tj. offsetu kocky). 
+   V každej iterácii sa volá funkcia `buildCube` spolu s offsetom aktuálne 
+   počítanej kocky. V prípade, že je kocka pod alebo nad povrchom, funkcia 
+   už ďalej nepočíta a vracia hodnotu 0, pretože kocka neudáva tvar povrchu.
+   Rozdiely medzi spôsobmi plánovania nie sú veľké preto, lebo kociek, ktoré 
+   obsahujú povrchovú časť objektu je v porovnaní s ostatnými veľmi málo 
+   (v našich testovacích prípadoch pod 10%) a preto k ďalším výpočtom dochádza 
+   sporadicky. Hodnotu `chunk_size`=8 som zvolil preto, lebo spomedzi testovaní 
+   dosahovala o malú štipku lepšie výsledky.
+   
+   - Defaultne je `chunk_size` nastavený na hodnotu 1, čo ale spôsobuje veľkú 
+   synchronizačnú réžiu. So zvyšovaním hodnoty chunk_size je synch. réžia menšia, 
+   avšak práca sa rozkladá na vačšie porcie a záťaž je teda horšie vyvážená.
+
+
+3) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+
+   - Použitím pragmy `omp critical`. Tá definuje, že časť kódu, kde sa do vektora
+   trojuholníky ukladajú musí byť vykonávaná max. jedným vláknom v tom istom čase.
+
+
+Úloha 2: Paralelní průchod stromem
+===============================================================================
+
+1) Stručně popište použití OpenMP tasků ve vašem řešení.
+
+   - V prvom rade pragmou `omp parallel` definujem paralélny región vo funkcii 
+   `marchCubes`. V tomto regióne pragmou `omp single` definujem, že volanie 
+   rekurzívnej funkcie `octree_func` sa bude vykonávať práve jedným vláknom, 
+   no a toto vlákno bude generovať prvé tasky (v mojom prípade je task volanie 
+   rekurzívnej funkcie `octree_func`). Týmto spôsobom sa v každom volaní 
+   rekurzívnej funkcie (za podmienky neprázdnosti bloku) jedným vláknom buď 
+   vygeneruje 8 taskov (kocku delíme na 8 častí), ktoré sa pridajú do fronty 
+   a spracovávajú ich ďalšie vlákna, alebo v prípade že kocku nedelíme 
+   ("cut-off" test) tak pokračuje vlákno do funkcie `buildCube` a vráti 
+   výsledok, teda počet trojuholníkov.
+
+
+2) Jakým způsobem jste realizovali sesbírání celkového počtu trojúhelníků?
+
+   - Vrámci task bloku, sa po každom návrate z rekurzívnej funkcie `octree_func` 
+   atomicky (pragma `omp atomic` s dovetkom `update`) pripočíta počet 
+   trojuholníkov do zdieľanej premmennej. Pre spočítanie všetkých trojuholníkov 
+   od potomkov, rodičovský task musí čakať na dokončenie všetkých child taskov 
+   `pragma omp taskwait`. Až potom vracia celkový počet trojuholníkov.
+
+
+3) Jaký vliv má na vaše řešení tzv. "cut-off"? Je vhodné vytvářet nový 
+   task pro každou krychli na nejnižší úrovni?
+
+   - Podmienka cut-off testu je nastavená tak, že sa kocka delí na ďalších 
+   osem kociek v prípade, že je dĺžka hrany aspoň 2. Na najnižšej úrovni tak 
+   vznikne 8 kociek s dĺžkou hrany 1, tie sa už nedelia. V prípade nastavenia 
+   hodnoty hrany pre cut-off test na vyššiu hodnotu dochádzalo k skoršiemu 
+   zastaveniu preskúmavania a výsledkom bol rádovo nižší počet trojuholníkov 
+   vedúci k nedostačujúcemu výsledku.
+   - Nie, nie je vhodné vytvárať task, keďže už nejde o rekurzívne volanie
+   funkcie, ale iba o jediné volanie funkcie `buildCube` čo môže rovno vykonať 
+   aj aktuálne vlákno.
+
+
+4) Jakým způsobem zajišťujete ukládání trojúhelníků z několika vláken současně?
+
+   - Ukladanie trojuholníkov z niekoľkých vlákien naraz je vyriešené tak, že 
+   k tejto časti kódu môže pristupovať iba jedno vlákno v istom časovom okamihu, 
+   t.j. pragma `omp critical`. Zadanie ma nabádalo použiť inú dátovú štruktúru 
+   a za umýslom vyhnúť sa kritickej sekcii pri ukladaní mi napadlo použitie 
+   hashovacej tabuľky, v ktorej indexom (kľúčom) by bolo číslo vlákna a hodnotou
+   vektor trojuholníkov, ktoré dané vlákno ukladá. Týmto spôsobom každé vlákno 
+   pristupuje výlučne k svojim dátam. Pre realizáciu tohto nápadu bolo pre 
+   zachovanie signatúry nevyhnutné prepísať fuknciu `getTrianglesArray` a spojiť 
+   všetky vektory z hashmapy do jedného vektora trojuholníkov, čo bola nevýhoda 
+   tohto riešenia. Vo výsledku tento prístup nepriniesol výrazne lepšie výsledky. 
+   Iba v prípade behu programu vyšším počtom vlákien (parameter `threads` > 16) 
+   sa riešenie s hashmapou správalo lepšie, čo prisudzujem faktu, že väčšie 
+   množstvo vlákien nemuselo čakať na kritickej sekcii. Na druhej strane časť 
+   kódu v kritickej sekcii je oproti celkovej práci malá, preto jej eliminácia 
+   nepriniesla viditeľne lepšie výsledky.
+
+
+Úloha 2: Grafy škálování obou řešení
+===============================================================================
+
+1) Stručně zhodnoťte efektivitu vytvořených řešení (na základě grafů škálování).
+
+   - Z grafov škálovania je vidieť, že implementácia pomocou octree je 
+   rýchlejšia (dosahuje lepšie časy), ale na druhej strane v škálovaní je na tom
+   lepšie paralélna verzia pôvodného riešenia (OpenMP Loop). Pri silnom škálovaní
+   krivky OpenMP Loop lineárne klesajú, tzn. so zvyšujúcim počtom vlákien čas
+   lineárne klesá, a to je požadované správanie. Pri 16 vláknach krivka začína
+   rásť a to z toho dôvodu, že máme malú úlohu pre takýto počet vlákien, a teda 
+   väčší čas súvisí s réžiou vačšieho počtu vlákien. Naopak pri silnom škálovaní
+   octree implementácie, hlavne pri menšom objeme vstupných dát, nastáva 
+   zhoršenie času pri zvýšení počtu vlákien (krivka rastie/neklesá). Zhodnotenie
+   z pohľadu slabého škálovania sa nachádza v 3. otázke.
+
+
+2) V jakém případě (v závislosti na počtu bodů ve vstupním souboru a velikosti 
+   mřížky) bude vaše řešení 1. úlohy neefektivní? (pokud takový případ existuje)
+
+   - Z pohľadu na grafy škálovania by k takémuto prípadu dôjsť nemalo, avšak 
+   v tomto riešení paralelizujeme tak, že sa paralélne spracúvava niekoľko kociek
+   mriežky, ale samotný výpočet trojuholníkov v kocke už paralelizovaný nieje.
+   - To znamená, že so zväčšovaním mriežky bude toto riešenie škálovať dobre, 
+   (paralelizujeme prechod mriežkou) ale s väčším množstvom vstupných dát 
+   (t.j väčší, zložitejší povrch objektu v mriežke), už bude škálovanie horšie.
+   - A teda loop implementácia bude neefektívna ak bude nedobrý pomer plochy 
+   objektu a objemu mriežky v ktorej sa objekt nachádza. Vtedy bude zbytočne 
+   prehľadávať veľké množstvo kociek pod alebo nad povrchom.
+
+
+3) Je (nebo není) stromový algoritmus efektivnější z pohledu slabého škálování 
+   vzhledem ke vstupu?
+
+   - Graf slabého škálovania ukazuje, že stromový algoritmus nieje z tohto
+   pohľadu efektívnejší, keďže so zvyšujúcim počtom vlákien sa čas výpočtu zvyšuje. 
+   Ideálny stav je, ak krivka s rastúcim počtom vlákien ostáva konštantná. 
+   Tomu sa viac približuje loop implementácia, ktorá škáluje dobre, až na jediný
+   prípad, čo je spôsobené malým množstvom práce rozdeleným do veľkého počtu vlákien.

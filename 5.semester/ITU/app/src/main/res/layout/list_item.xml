@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*"
+    android:id="@+id/expandTable"
+    >
+
+    <TableRow>
+
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meno a priezvisko"/>
+
+        <TextView
+            android:id="@+id/lblListItem0"
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ján Novák"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Špecializácia"/>
+
+        <TextView
+            android:id="@+id/lblListItem1"
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kardiológ"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telefónne číslo"/>
+
+        <TextView
+            android:id="@+id/lblListItem2"
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+421 948 447 621"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"/>
+
+        <TextView
+            android:id="@+id/lblListItem3"
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="novak@gmail.com"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:textSize="16dip"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adresa"/>
+
+        <TextView
+            android:id="@+id/lblListItem4"
+            android:textSize="16dip"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jahodová 19, Trebišov"/>
+    </TableRow>
+    <TableRow android:layout_marginTop="10dp">
+        <Button
+                android:textColor="#fff"
+                android:background="@drawable/editbutton"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="UPRAVIŤ" android:layout_marginLeft="30dp" android:layout_marginRight="-60dp"/>
+        <Button
+                android:textColor="#fff"
+                android:background="@drawable/deletebutton"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="ZMAZAŤ" android:layout_marginRight="40dp"/>
+    </TableRow>
+
+</TableLayout>

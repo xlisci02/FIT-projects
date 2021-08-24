@@ -1,0 +1,161 @@
+
+Paralelní programování na GPU (PCG 2020)
+Projekt c. 1 (cuda)
+Login: xlisci02
+
+Výsledky z anselmu.
+Súbor nbody-nvidia-quadro.txt obsahuje výsledky z mojej grafickej karty NVIDIA Quadro M1000M,
+ktoré som zozbieral v dôsledku výpadku superpočítača anselm.
+
+Krok 0: základní implementace
+=============================
+Velikost dat    	čas [s]
+1 * 1024 			 0.818319
+2 * 1024 			 1.62239
+3 * 1024 			 2.42007
+4 * 1024 			 3.23299
+5 * 1024 			 4.02696
+6 * 1024 			 4.82431
+7 * 1024 			 5.63666
+8 * 1024 			 6.43885
+9 * 1024 			 7.25628
+10 * 1024 			 8.04303
+11 * 1024 			 8.87323
+12 * 1024 			 9.6587
+13 * 1024 			 10.4709
+14 * 1024 			 22.0237
+15 * 1024 			 23.6009
+16 * 1024 			 25.2934
+17 * 1024 			 26.9233
+18 * 1024 			 28.407
+19 * 1024 			 30.2122
+20 * 1024 			 31.7732
+21 * 1024 			 33.5412
+22 * 1024 			 34.9847
+23 * 1024 			 36.836
+24 * 1024 			 38.4493
+25 * 1024 			 40.2173
+26 * 1024 			 41.7516
+27 * 1024 			 63.7301
+28 * 1024 			 66.1455
+29 * 1024 			 68.6474
+30 * 1024 			 70.9715
+
+
+Vyskytla se nějaká anomálie v datech
+Pokud ano, vysvětlete:
+
+Prudší nárast času môžeme vidieť pri veľkostiach:
+{14, 27} * 1024
+Čo môžeme vyjadriť ako (x + 1) * 1024, kde x je počet SM procesorov na grafickej karte.
+Vzhľadom ku počtu registrov potrebných pre jedno vlákno, na každý SM procesor pripadá práve jeden blok (1024 vlákien).
+Pri veľkosti dát > 13 sa musia bloky na SM procesoroch serializovať, čo pripisujeme danému skoku v časových údajoch.
+
+Krok 1: optimalizace kódu
+=====================
+Došlo ke zrychlení?
+Áno.
+step0           70.983319 s
+step1           47.854273 s
+zrýchlenie      32.58 %
+
+Pri parametroch:
+N: 30720
+dt: 0.01f
+steps: 500
+threads/block: 1024
+blocks/grid: 30
+reduction threads/block: 128
+reduction blocks/grid: 32
+
+Popište dva hlavní důvody:
+
+1. Odpadá nutnosť používať pomocné polia pre ukladanie rýchlostí, ktoré boli uložené v glob. pamäti.
+Navyše, pri step0 sa v kerneloch pristupovalo k rovnakým miestam v glob. pamati,
+pri step1 sa prístup k rovnakým miestam zjednotil.
+Celkovo sa tak znížil počet prístupov do glob. pamäti čo viedlo k lepšiemu času.
+
+2. V oboch kerneloch sa v step0 počítali rovnaké pomocné výpočty, spojením sa znížil počet FP operácií.
+   + menej réžie spojenej s kernelmi. (1 kernel vs 2 kernely)
+
+Porovnejte metriky s předchozím krokem:
+            Global Load Transactions        Floating Point Operations(Single Precision)
+step0            206 462 400                            5.2848e+10
+step1            117 971 520                            3.8693e+10
+
+Global Load Transactions:
+Pri step0 vlákna vykonávajúce kernel `calculate_gravitation_velocity` čítali rovnaké hodnoty aj v kerneli
+`calculate_collision_velocity`, pri step1 sa načítajú z glob. pamäte iba raz.
+
+Floating Point Operations(Single Precision)
+Analogicky, vlákna v kerneli `calculate_gravitation_velocity` vykonávajú rovnaké FP výpočty znova aj
+v kerneli `calculate_collision_velocity`, spojením do jedného kernelu sa tieto hodnoty vypočítajú iba raz.
+
+
+Krok 2: sdílená paměť
+=====================
+Došlo ke zrychlení?
+Áno.
+step1          47.854273 s
+step2          35.085227 s
+zrýchlenie     26.68 %
+
+Pri parametroch:
+N: 30720
+dt: 0.01f
+steps: 500
+threads/block: 1024
+blocks/grid: 30
+reduction threads/block: 128
+reduction blocks/grid: 32
+
+Zdůvodněte:
+V kroku 2 sme ombedzili prístupy do globálnej pamäte dlaždicovým prednačítaním hodnôt do zdieľanej pamate.
+Vo výpočte sa už hodnoty nenačítali z glob. pamäte ale zo zdieľanej, ktorá má kratšiu prístupovú dobu.
+Oproti kroku 1 sa z globálnej pamäte číta spôsobom súsedné vlákno číta zo susednej lokácie.
+V samotnom výpočte, kde tento princíp nemožno zaručiť, už nemusíme pracovať s globálnou pamaťou.
+
+Porovnejte metriky s předchozím krokem:
+         Global Load Transactions   Shared Load Transactions   Global Memory Load Efficiency    Requested Global Load Throughput
+step1          117 971 520                   0                          12.52%                          4.5976GB/s
+step2              208 320              117 964 800                    100.00%                          362.40MB/s
+
+Metriky odpovedajú zdôvodneniu zrýchlenia, menej načítaní z globálnej pamäte,
+čím sa znížila aj požadovaná priepustnosť glob. pamäte,
+samozrejme pribudlo načítanie zo zdieľanej pamäte a čítanie z globálnej pamäte je efektívnejšie,
+pretože dodržiavame princíp čítania so susedných lokácií.
+
+Krok 5: analýza výkonu
+======================
+N        čas CPU [s]    čas GPU [s]    propustnost paměti [MB/s]    výkon [MFLOPS]    zrychlení [-]     ideálny počet vlákien
+128       0.551053       0.084748             313.9095               4178,505687       6.502253741             32
+256       1.98           0.122131             524,1384               11567,51357       16.21210012            256
+512       7.23395        0.215380             855,5463               26202,7672        33.58691615            512
+1024      28.4742        0.405154            1388,1705               55680,79298       70.27994294            512
+2048      112.907        0.784118            2198,9952               115043,093        143.9923583            512
+4096      460.4212       1.547540            3128,1311               233124,696        297.5181255            512
+8192      1841.6845      3.096232            3241,1102               466037,3874       594.8147619            256
+16384    ~7336.7379      6.896794            4217,3064               836859,7746       1063.789625            256
+32768    ~29466.9516     30.658393           5237,8122               753013,0446       961.1381653            512
+65536    ~117867.8067    122.377772          5582,9466               754555,5198       963.1471857            512
+131072   ~471471.2269    428.858391          5672,7549                <OVERFLOW>       1099.363419            512
+
+
+~ odhadované hodnoty CPU riešenia
+
+Priepustnosť pamäte bola počítaná ako súčet týchto dvoch metrík
+Requested Global Load Throughput,
+Requested Global Store Throughput
+z oboch kernelov.
+
+Výkon pamäte bol počítaný ako súčet metrík
+Floating Point Operations(Single Precision)
+Floating Point Operations(Single Precision Special)
+z obidvoch kernelov, tento súčet vynásobený počtom krokov (500), podelený časom výpočtu a prevedený z FLOPS na MFLOPS.
+
+Pri poslednom meraní došlo k pretečeniu počítadla flop_count_sp (flop_count_sp_fma),
+preto tabuľka v tomto mieste obsahuje hodnotu <OVERFLOW>.
+
+Od jakého počtu částic se vyplatí počítat na grafické kartě?
+Podľa tabuľky od 256 častíc, pretože zrýchlenie je viac než 10 násobné.
+===================================

@@ -1,0 +1,22 @@
+<resources>
+    <string-array name="items_array_expandable_level_one">
+        <item>8:00</item>
+        <item>12:00</item>
+        <item>16:30</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_one_child">
+        <item>@string/panadol</item>
+        <item>@string/zub</item>
+        <item>@string/codeine</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_one_two_child">
+        <item>@string/euthyrox</item>
+        <item>@string/oko</item>
+    </string-array>
+    <string-array name="items_array_expandable_other_child">
+        <item>Second Level 01</item>
+    </string-array>
+    <string-array name="items_array_expandable_level_three">
+        <item>@string/chw</item>
+    </string-array>
+</resources>

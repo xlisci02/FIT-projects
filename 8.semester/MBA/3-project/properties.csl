@@ -1,0 +1,4 @@
+P=? [ F Nakazeni=0 ]
+
+P=? [ (Nakazeni>0) U[100,120] (Nakazeni=0) ]
+

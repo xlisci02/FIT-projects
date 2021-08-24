@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<item android:title="@string/nav_home" android:icon="@drawable/ic_home_black_24dp" android:id="@+id/nav_home"/>
+	<item android:title="@string/nav_lieky" android:icon="@mipmap/pill" android:id="@+id/nav_lieky"/>
+	<item android:title="@string/nav_vysetrenia" android:icon="@mipmap/treat"
+	      android:id="@+id/nav_vysetrenia"/>
+	<item android:title="@string/nav_viac" android:icon="@drawable/ic_more" android:id="@+id/nav_viac"
+	/>
+</menu>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
+clock x;
+chan reset;
+</declaration><template><name x="5" y="5">Test</name><declaration>// Place local declarations here.
+</declaration><location id="id0" x="-416" y="-144"><name x="-464" y="-152">loop</name></location><init ref="id0"/><transition><source ref="id0"/><target ref="id0"/><label kind="guard" x="-320" y="-168">x&gt;=2 &amp;&amp; x&lt;=3</label><label kind="synchronisation" x="-320" y="-144">reset!</label><nail x="-368" y="-176"/><nail x="-328" y="-144"/><nail x="-368" y="-112"/></transition></template><template><name>Observer</name><location id="id1" x="-192" y="-64"><name x="-202" y="-94">taken</name><committed/></location><location id="id2" x="-328" y="-64"><name x="-360" y="-96">idle</name></location><init ref="id2"/><transition><source ref="id1"/><target ref="id2"/><label kind="assignment" x="-272" y="-16">x:=0</label><nail x="-216" y="-24"/><nail x="-296" y="-24"/><nail x="-296" y="-24"/></transition><transition><source ref="id2"/><target ref="id1"/><label kind="synchronisation" x="-272" y="-128">reset?</label><nail x="-296" y="-112"/><nail x="-216" y="-112"/><nail x="-216" y="-112"/></transition></template><system>// Place template instantiations here.
+// Process = Template();
+
+// List one or more processes to be composed into a system.
+system Observer, Test;
+//system Test;
+</system></nta>

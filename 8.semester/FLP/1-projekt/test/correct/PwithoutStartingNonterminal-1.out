@@ -1,0 +1,11 @@
+A,B,C,A103,A203
+a,b,c
+C
+B->bB
+B->#
+A->aA103
+A103->aB
+A->cA203
+A203->cB
+A->bB
+A->#

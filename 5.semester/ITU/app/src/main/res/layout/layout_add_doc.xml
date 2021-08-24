@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical"
+        >
+
+
+        <EditText
+            android:id="@+id/docName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Meno a priezvisko" />
+
+
+        <EditText
+            android:id="@+id/docSpec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Špecializácia" />
+
+        <EditText
+            android:id="@+id/docTelc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefónne číslo" />
+
+        <EditText
+            android:id="@+id/docEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email" />
+
+        <EditText
+            android:id="@+id/docAdresa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Adresa" />
+
+
+    </LinearLayout>
+</ScrollView>
