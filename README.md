@@ -1,4 +1,4 @@
-# FIT-projects, for english version click [here]()
+# FIT-projects
 Projekty počas štúdia na Fakulte Informačných Technológií na VUT v Brne
 
 ## Bakalárske štúdium (2016-2019)
