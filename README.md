@@ -51,7 +51,7 @@ Projekty počas štúdia na Fakulte Informačných Technológií na VUT v Brne
 - IPP: Princípy programovacích jazykov a OOP - Projekt: 21/20
 - ITW: Tvorba webových stránok:
   - 1.Projekt - 20/20
-  - 2.projekt - 20/20
+  - 2.Projekt - 20/20
 
 5.semester
 - IIS: Informačné systémy - Projekt: 25/30
@@ -70,8 +70,8 @@ Projekty počas štúdia na Fakulte Informačných Technológií na VUT v Brne
   - 2.Projekt - Paralelizácia s OpenMP - 15/15
 - MSP: Štatistika a pravdepodobnosť - Projekt: 9/10
 - TIN: Teoretická informatika:
-  - 1.projekt - 5/5
-  - 2.projekt - 3/5
+  - 1.Projekt - 5/5
+  - 2.Projekt - 3/5
 - UPA: Ukladanie a príprava dát - Projekt: 20/20
 
 8.semester
@@ -87,8 +87,8 @@ Projekty počas štúdia na Fakulte Informačných Technológií na VUT v Brne
   - 3.Projekt - Markovské reťazce - 8/8
 - PP1: Projektová prax - Analýza, modelovanie a predikcia výkonu programu založená na testovacích metodách - 90/100 (A)
 - PRL: Paralélne a distribuované algoritmy:
-  - 1.projekt - 10/10
-  - 2.projekt - 10/10
+  - 1.Projekt - 10/10
+  - 2.Projekt - 10/10
 - SPP: Systémy odolné proti poruchám - Projekt: 30/30
 
 9.semester
@@ -97,7 +97,7 @@ Projekty počas štúdia na Fakulte Informačných Technológií na VUT v Brne
   - 1.Projekt - Implementácia CUDA algoritmu (Nbody problém) - 21/25
   - 2.Projekt - Implementácia OpenACC kódu (Nbody problém) - 15/15
 - SAV: Statická analýza a verifikácia - Projekt: 27/30
-- SEP: Semestrálny projekt - Výkonnostná analýza programov založená na vkladaní šumu - 90/100 (A)
+- SEP: Semestrálny Projekt - Výkonnostná analýza programov založená na vkladaní šumu - 90/100 (A)
 - VIN: Výtvarná informatika - Projekt: 50/50
 
 10.semester
