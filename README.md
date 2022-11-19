@@ -1,10 +1,7 @@
 # FIT-projects
 Projekty počas štúdia na Fakulte Informačných technológií na VUT v Brne
 
-:warning: **Pôvodný repozitár sa stal privátnym :lock:.**
-
-:key: V prípade záujmu o riešenie ma kontaktujte na adrese
-[spse1po@gmail.com](mailto:spse1po@gmail.com).
+:warning: **Privátny repozitár :lock:**
 
 
 ## Bakalárske štúdium (2016-2019)
